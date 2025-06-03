@@ -8,4 +8,4 @@ if (!isset($_SESSION['logged_in'])) {
 
 header("Location: pages/dashboard.php");
 exit();
-// Root of the project index.php
+?>

@@ -4,6 +4,14 @@ $sampleData = [
     ['id' => 2, 'name' => 'Jane Smith', 'date' => '2025-06-02', 'status' => 'Pending'],
     ['id' => 3, 'name' => 'Mike Johnson', 'date' => '2025-06-03', 'status' => 'Cancelled'],
     ['id' => 4, 'name' => 'Emily Brown', 'date' => '2025-06-04', 'status' => 'In Progress'],
+    ['id' => 1, 'name' => 'John Doe', 'date' => '2025-06-01', 'status' => 'Completed'],
+    ['id' => 2, 'name' => 'Jane Smith', 'date' => '2025-06-02', 'status' => 'Pending'],
+    ['id' => 3, 'name' => 'Mike Johnson', 'date' => '2025-06-03', 'status' => 'Cancelled'],
+    ['id' => 4, 'name' => 'Emily Brown', 'date' => '2025-06-04', 'status' => 'In Progress'],
+    ['id' => 1, 'name' => 'John Doe', 'date' => '2025-06-01', 'status' => 'Completed'],
+    ['id' => 2, 'name' => 'Jane Smith', 'date' => '2025-06-02', 'status' => 'Pending'],
+    ['id' => 3, 'name' => 'Mike Johnson', 'date' => '2025-06-03', 'status' => 'Cancelled'],
+    ['id' => 4, 'name' => 'Emily Brown', 'date' => '2025-06-04', 'status' => 'In Progress'],
 ];
 ?>
 
