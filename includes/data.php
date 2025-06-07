@@ -1,18 +1,45 @@
 <?php
-function getTotalPatients()
+include '../includes/db.php';
+function getTotalPatients($conn)
 {
-    return 420;
+    $sql = "SELECT COUNT(*) as total FROM patients";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'] ?? 0;
 }
-function getTotalAppointments()
+
+function getTotalAppointments($conn)
 {
-    return 27;
+    $sql = "SELECT COUNT(*) as total FROM appointments";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'] ?? 0;
 }
-function getTotalPrescriptions()
+
+function getTotalPrescriptions($conn)
 {
-    return 88;
+    $sql = "SELECT COUNT(*) as total FROM prescriptions";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'] ?? 0;
 }
-function getTotalLabTests()
+
+function getTotalLabTests($conn)
 {
-    return 12;
+    $sql = "SELECT COUNT(*) as total FROM lab_tests";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'] ?? 0;
 }
-// includes/data.php
+
+function getPatientsThisMonth($conn)
+{
+    // Get first day and last day of current month
+    $firstDay = date('Y-m-01');
+    $lastDay = date('Y-m-t');
+
+    $sql = "SELECT COUNT(*) as total FROM patients WHERE created_at BETWEEN '$firstDay' AND '$lastDay'";
+    $result = mysqli_query($conn, $sql);
+    $row = mysqli_fetch_assoc($result);
+    return $row['total'] ?? 0;
+}

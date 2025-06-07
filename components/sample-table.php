@@ -1,4 +1,5 @@
 <?php
+include('db.php')
 $sampleData = [
     ['id' => 1, 'name' => 'John Doe', 'date' => '2025-06-01', 'status' => 'Completed'],
     ['id' => 2, 'name' => 'Jane Smith', 'date' => '2025-06-02', 'status' => 'Pending'],
@@ -31,12 +32,21 @@ $sampleData = [
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                    <?php foreach ($sampleData as $row): ?>
+                    <?php
+                $stmt = "SELECT * FROM Appointment";
+                $result = mysqli_query($conn, $qry);
+                $res = mysqli_fetch_array($res);
+                while ($res) {
+                    // 
+                 ?>
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-3 font-medium"><?= $row['id'] ?></td>
                             <td class="px-6 py-3"><?= $row['name'] ?></td>
                             <td class="px-6 py-3"><?= $row['date'] ?></td>
                             <td class="px-6 py-3">
+                                <?php
+                                }
+                                ?>
                                 <span class="inline-block px-2 py-1 rounded-full text-xs font-semibold 
                   <?php
                         switch ($row['status']) {

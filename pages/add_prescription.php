@@ -1,14 +1,13 @@
 <?php
 include '../includes/data.php';
 ?>
-
 <?php include '../includes/sidebar.php'; ?>
 
 <div class="ml-64 min-h-screen">
     <?php include '../includes/header.php'; ?>
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Add New Lab Test</h2>
+    <h2 class="text-2xl font-bold text-gray-800 mb-6">Add New Prescription</h2>
 
-    <form action="../data/save_lab_test.php" method="POST"
+    <form action="../data/save_prescription.php" method="POST"
         class="bg-white shadow-md rounded-xl p-6 space-y-4 max-w-2xl">
 
         <div>
@@ -18,43 +17,40 @@ include '../includes/data.php';
         </div>
 
         <div>
-            <label for="test_type" class="block text-gray-600 mb-1">Test Type</label>
-            <input type="text" name="test_type" id="test_type" required
+            <label for="medicine" class="block text-gray-600 mb-1">Medicine</label>
+            <textarea name="medicine" id="medicine" rows="4" required
                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="e.g., Blood Test, Urine Test, X-Ray">
+                placeholder="E.g. Paracetamol 500mg - twice daily for 5 days"></textarea>
         </div>
 
         <div>
-            <label for="results" class="block text-gray-600 mb-1">Results</label>
-            <textarea name="results" id="results" rows="4"
+            <label for="dosage" class="block text-gray-600 mb-1">Dosage</label>
+            <input type="text" name="dosage" id="dosage"
                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter lab test results or leave blank if pending"></textarea>
+                placeholder="E.g. 2 tablets per day">
         </div>
 
         <div>
-            <label for="status" class="block text-gray-600 mb-1">Status</label>
-            <select name="status" id="status" required
-                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="Pending">Pending</option>
-                <option value="Completed">Completed</option>
-            </select>
+            <label for="notes" class="block text-gray-600 mb-1">Additional Notes</label>
+            <textarea name="notes" id="notes" rows="3"
+                class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="E.g. Take after meals, monitor temperature, etc."></textarea>
         </div>
 
         <div>
-            <label for="test_date" class="block text-gray-600 mb-1">Test Date</label>
-            <input type="date" name="test_date" id="test_date" required
+            <label for="prescribed_at" class="block text-gray-600 mb-1">Prescribed Date</label>
+            <input type="date" name="prescribed_at" id="prescribed_at" required
                 class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
         </div>
 
         <div class="text-right">
             <button type="submit"
                 class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-md transition">
-                Save Lab Test
+                Save Prescription
             </button>
         </div>
 
     </form>
-    </main>
 
     <?php include '../includes/footer.php'; ?>
 </div>
