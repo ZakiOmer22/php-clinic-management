@@ -71,7 +71,6 @@ include '../includes/db.php' ?>
               <tr>
                 <th class="px-6 py-3">ID</th>
                 <th class="px-6 py-3">Patient ID</th>
-                <th class="px-6 py-3">Patient Name</th>
                 <th class="px-6 py-3">Doctor Name</th>
                 <th class="px-6 py-3">Appointment Date</th>
                 <th class="px-6 py-3">Status</th>
@@ -81,11 +80,7 @@ include '../includes/db.php' ?>
               <?php
               // Join appointments with patients to get patient names
               $stmt = "
-                                SELECT appointments.*, patients.name AS patient_name
-                                FROM appointments
-                                LEFT JOIN patients ON appointments.patient_id = patients.id
-                                ORDER BY appointments.id ASC
-                            ";
+                                SELECT * from appointments";
               $result = mysqli_query($conn, $stmt);
               if (!$result) {
                 echo '<tr><td colspan="8" class="px-6 py-3 text-red-600 font-bold">Error loading data</td></tr>';
@@ -94,8 +89,7 @@ include '../includes/db.php' ?>
               ?>
                   <tr class="hover:bg-gray-50 transition">
                     <td class="px-6 py-3 font-medium"><?= htmlspecialchars($row['id']); ?></td>
-                    <td class="px-6 py-3"><?= htmlspecialchars($row['patient_id']); ?></td>
-                    <td class="px-6 py-3"><?= htmlspecialchars($row['patient_name'] ?? 'Unknown'); ?></td>
+                    <td class="px-6 py-3"><?= htmlspecialchars($row['id']); ?></td>
                     <td class="px-6 py-3"><?= htmlspecialchars($row['doctor_name']); ?></td>
                     <td class="px-6 py-3"><?= htmlspecialchars($row['appointment_date']); ?></td>
                     <td class="px-6 py-3"><?= htmlspecialchars($row['status']); ?></td>

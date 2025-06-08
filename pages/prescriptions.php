@@ -44,8 +44,7 @@ include '../includes/db.php';
 
         <!-- Action Buttons -->
         <div class="flex justify-end space-x-3 mb-4">
-            <a href="add_prescription.php" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-md">Add Prescription</a>
-            <a href="delete_multiple_prescriptions.php" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition shadow-md">Delete Selected</a>
+            <a href="add_prescription.php" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-md">Add</a>
         </div>
 
         <!-- Prescriptions Table -->
@@ -59,77 +58,52 @@ include '../includes/db.php';
                         <tr>
                             <th class="px-6 py-3">Id</th>
                             <th class="px-6 py-3">Patient Id</th>
-                            <th class="px-6 py-3">Patient Name</th>
-                            <th class="px-6 py-3">Doctor</th>
-                            <th class="px-6 py-3">Medication</th>
+                            <th class="px-6 py-3">Medicine</th>
                             <th class="px-6 py-3">Dosage</th>
-                            <th class="px-6 py-3">Prescribed Date</th>
                             <th class="px-6 py-3">Notes</th>
+                            <th class="px-6 py-3">Prescribed at</th>
+                            <th class="px-6 py-3">Select</th>
                             <th class="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         <?php
-                        // Updated query: get doctor_name from appointments (matching patient_id and nearest prescribed_at date)
-                        // We'll LEFT JOIN patients as before
-                        // For doctor name, join appointments on patient_id and pick the appointment closest to the prescription date (simple approach: max prescribed_at <= prescription date)
+                        $stmt = "
+                            SELECT * from prescriptions";
 
-                        // Because MySQL doesn't support direct join with closest date easily, we'll do a subquery to pick the doctor's name for each prescription
+                        $result = mysqli_query($conn, $stmt);
 
-                        $sql = "
-                            SELECT
-                                p.id,
-                                p.patient_id,
-                                pat.name AS patient_name,
-                                p.medicine,
-                                p.dosage,
-                                p.notes,
-                                p.prescribed_at,
-                                (
-                                    SELECT a.doctor_name
-                                    FROM appointments a
-                                    WHERE a.patient_id = p.patient_id
-                                      AND a.appointment_date <= p.prescribed_at
-                                    ORDER BY a.appointment_date DESC
-                                    LIMIT 1
-                                ) AS doctor_name
-                            FROM prescriptions p
-                            LEFT JOIN patients pat ON p.patient_id = pat.id
-                            ORDER BY p.prescribed_at ASC
-                            LIMIT 50
-                        ";
-
-                        $result = mysqli_query($conn, $sql);
-
-                        if (!$result) {
-                            echo '<tr><td colspan="9" class="text-center text-red-500 py-4">Failed to retrieve prescriptions data.</td></tr>';
-                        } else {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                $id = htmlspecialchars($row['id'] ?? '');
-                                $patient_id = htmlspecialchars($row['patient_id'] ?? '');
-                                $patient_name = htmlspecialchars($row['patient_name'] ?? 'Unknown Patient');
-                                $doctor_name = htmlspecialchars($row['doctor_name'] ?? 'Unknown Doctor');
-                                $medication = htmlspecialchars($row['medicine'] ?? '');
-                                $dosage = htmlspecialchars($row['dosage'] ?? '');
-                                $prescribed_date = !empty($row['prescribed_at']) ? htmlspecialchars(date("Y-m-d", strtotime($row['prescribed_at']))) : 'N/A';
-                                $notes = htmlspecialchars($row['notes'] ?? '');
-
-                                echo "<tr class='hover:bg-gray-50 transition'>";
-                                echo "<td class='px-6 py-3 font-medium'>{$id}</td>";
-                                echo "<td class='px-6 py-3'>{$patient_id}</td>";
-                                echo "<td class='px-6 py-3'>{$patient_name}</td>";
-                                echo "<td class='px-6 py-3'>{$doctor_name}</td>";
-                                echo "<td class='px-6 py-3'>{$medication}</td>";
-                                echo "<td class='px-6 py-3'>{$dosage}</td>";
-                                echo "<td class='px-6 py-3'>{$prescribed_date}</td>";
-                                echo "<td class='px-6 py-3'>{$notes}</td>";
-                                echo "<td class='px-6 py-3 space-x-2'>
-                                        <a href='edit_prescription.php?id={$id}' class='px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition'>Edit</a>
-                                      </td>";
-                                echo "</tr>";
-                            }
-                        }
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $id = htmlspecialchars($row['id']);
+                            $patient_id = htmlspecialchars($row['id']);
+                            $medicine = htmlspecialchars($row['medicine'] ?? 'Unknown');
+                            $dosage = htmlspecialchars($row['dosage'] ?? 'Unknown');
+                            $notes = htmlspecialchars($row['notes'] ?? 'Unknown');
+                            $prescribed_at = htmlspecialchars(date("Y-m-d", strtotime($row['prescribed_at'])));
                         ?>
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-6 py-3 font-medium"><?= $id; ?></td>
+                                <td class="px-6 py-3"><?= $patient_id; ?></td>
+                                <td class="px-6 py-3"><?= $medicine; ?></td>
+                                <td class="px-6 py-3"><?= $dosage; ?></td>
+                                <td class="px-6 py-3"><?= $notes; ?></td>
+                                <td class="px-6 py-3"><?= $prescribed_at; ?></td>
+                                <td class="px-6 py-3">
+                                    <input type="checkbox" name="appointment_ids[]" value="<?= htmlspecialchars($row['id']); ?>" class="form-checkbox" />
+                                </td>
+                                <td class="px-6 py-3 space-x-2">
+                                    <a href="edit_lab_test.php?id=<?= $id ?>"
+                                        class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
+                                        Edit
+                                    </a>
+                                    <a href="delete_prescription.php?id=<?= urlencode($row['id']); ?>"
+                                        onclick="return confirm('Are you sure you want to delete this prescription?');"
+                                        class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php } ?>
                     </tbody>
                 </table>
             </div>

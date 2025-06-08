@@ -44,11 +44,7 @@ include '../includes/db.php';
         <div class="flex justify-end space-x-3 mb-4">
             <a href="add_labtest.php"
                 class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-md">
-                Add Lab Test
-            </a>
-            <a href="delete_multiple_lab_tests.php"
-                class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition shadow-md">
-                Delete Selected
+                Add
             </a>
         </div>
 
@@ -67,29 +63,20 @@ include '../includes/db.php';
                             <th class="px-6 py-3">Test Name</th>
                             <th class="px-6 py-3">Test Date</th>
                             <th class="px-6 py-3">Status</th>
+                            <th class="px-6 py-3">Select</th>
                             <th class="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
                         <?php
                         $stmt = "
-                            SELECT
-                                lab_tests.id,
-                                lab_tests.patient_id,
-                                patients.name AS patient_name,
-                                lab_tests.test_type,
-                                lab_tests.test_date,
-                                lab_tests.status
-                            FROM lab_tests
-                            LEFT JOIN patients ON lab_tests.patient_id = patients.id
-                            ORDER BY lab_tests.test_date ASC
-                        ";
+                            SELECT * from lab_tests";
 
                         $result = mysqli_query($conn, $stmt);
 
                         while ($row = mysqli_fetch_assoc($result)) {
                             $id = htmlspecialchars($row['id']);
-                            $patient_id = htmlspecialchars($row['patient_id']);
+                            $patient_id = htmlspecialchars($row['id']);
                             $patient_name = htmlspecialchars($row['patient_name'] ?? 'Unknown');
                             $test_name = htmlspecialchars($row['test_type'] ?? 'Unknown');
                             $test_date = htmlspecialchars(date("Y-m-d", strtotime($row['test_date'])));
@@ -110,10 +97,18 @@ include '../includes/db.php';
                                         <span><?= $status; ?></span>
                                     <?php endif; ?>
                                 </td>
+                                <td class="px-6 py-3">
+                                    <input type="checkbox" name="appointment_ids[]" value="<?= htmlspecialchars($row['id']); ?>" class="form-checkbox" />
+                                </td>
                                 <td class="px-6 py-3 space-x-2">
                                     <a href="edit_lab_test.php?id=<?= $id ?>"
                                         class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
                                         Edit
+                                    </a>
+                                    <a href="delete_lab_test.php?id=<?= urlencode($row['id']); ?>"
+                                        onclick="return confirm('Are you sure you want to delete this lab test?');"
+                                        class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
+                                        Delete
                                     </a>
                                 </td>
                             </tr>

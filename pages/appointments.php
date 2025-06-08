@@ -38,12 +38,8 @@ include '../includes/db.php';
         <div class="flex justify-end space-x-3 mb-4">
             <a href="add_appointment.php"
                 class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-md">
-                Add Appointment
+                Add
             </a>
-            <button form="deleteForm" type="submit"
-                class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition shadow-md">
-                Delete Selected
-            </button>
         </div>
 
         <!-- Data Table -->
@@ -58,7 +54,6 @@ include '../includes/db.php';
                             <tr>
                                 <th class="px-6 py-3">ID</th>
                                 <th class="px-6 py-3">Patient ID</th>
-                                <th class="px-6 py-3">Patient Name</th>
                                 <th class="px-6 py-3">Doctor Name</th>
                                 <th class="px-6 py-3">Appointment Date</th>
                                 <th class="px-6 py-3">Status</th>
@@ -70,11 +65,7 @@ include '../includes/db.php';
                             <?php
                             // Join appointments with patients to get patient names
                             $stmt = "
-                                SELECT appointments.*, patients.name AS patient_name
-                                FROM appointments
-                                LEFT JOIN patients ON appointments.patient_id = patients.id
-                                ORDER BY appointments.id ASC
-                            ";
+                                SELECT * from appointments";
                             $result = mysqli_query($conn, $stmt);
                             if (!$result) {
                                 echo '<tr><td colspan="8" class="px-6 py-3 text-red-600 font-bold">Error loading data</td></tr>';
@@ -83,8 +74,7 @@ include '../includes/db.php';
                             ?>
                                     <tr class="hover:bg-gray-50 transition">
                                         <td class="px-6 py-3 font-medium"><?= htmlspecialchars($row['id']); ?></td>
-                                        <td class="px-6 py-3"><?= htmlspecialchars($row['patient_id']); ?></td>
-                                        <td class="px-6 py-3"><?= htmlspecialchars($row['patient_name'] ?? 'Unknown'); ?></td>
+                                        <td class="px-6 py-3"><?= htmlspecialchars($row['id']); ?></td>
                                         <td class="px-6 py-3"><?= htmlspecialchars($row['doctor_name']); ?></td>
                                         <td class="px-6 py-3"><?= htmlspecialchars($row['appointment_date']); ?></td>
                                         <td class="px-6 py-3"><?= htmlspecialchars($row['status']); ?></td>
@@ -95,6 +85,11 @@ include '../includes/db.php';
                                             <a href="edit_appointment.php?id=<?= urlencode($row['id']); ?>"
                                                 class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
                                                 Edit
+                                            </a>
+                                            <a href="delete_appointment.php?id=<?= urlencode($row['id']); ?>"
+                                                onclick="return confirm('Are you sure you want to delete this appointment?');"
+                                                class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
+                                                Delete
                                             </a>
                                         </td>
                                     </tr>

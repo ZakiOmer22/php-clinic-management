@@ -42,13 +42,8 @@ $result = mysqli_query($conn, $stmt);
         <div class="flex justify-end space-x-3 mb-4">
             <a href="add_appointment.php"
                 class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition shadow-md">
-                Add Appointment
+                Add
             </a>
-            <a href="delete_multiple.php"
-                class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition shadow-md">
-                Delete Selected
-            </a>
-            <!-- You can add more bulk action buttons here -->
         </div>
 
         <!-- Data Table -->
@@ -87,6 +82,11 @@ $result = mysqli_query($conn, $stmt);
                                         <a href="edit_appointment.php?id=<?= urlencode($row['id']); ?>"
                                             class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
                                             Edit
+                                        </a>
+                                        <a href="delete_patient.php?id=<?= urlencode($row['id']); ?>"
+                                            onclick="return confirm('Are you sure you want to delete this patient?');"
+                                            class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
+                                            Delete
                                         </a>
                                     </td>
                                 </tr>
