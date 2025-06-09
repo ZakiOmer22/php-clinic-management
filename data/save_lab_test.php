@@ -13,19 +13,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 VALUES ($patient_id, '$test_type', '$results', '$status', '$test_date')";
 
         if ($conn->query($sql) === TRUE) {
-            header("Location: ../pages/lab_tests.php");
+            header("Location: ../pages/labtests.php");
             exit;
         } else {
-            // Show error or redirect with failure
             echo "Error: " . $conn->error;
-            // Or header("Location: ../pages/add_lab_test.php?saved=0"); exit;
         }
     } else {
-        header("Location: ../pages/add_lab_test.php?saved=0");
+        header("Location: ../pages/add_labtest.php?saved=0");
         exit;
     }
 } else {
-    header("Location: ../pages/add_lab_test.php");
+    header("Location: ../pages/add_labtest.php");
     exit;
 }
 ?>

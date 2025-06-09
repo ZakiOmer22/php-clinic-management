@@ -78,7 +78,6 @@ include '../includes/db.php' ?>
             </thead>
             <tbody class="divide-y divide-gray-200">
               <?php
-              // Join appointments with patients to get patient names
               $stmt = "
                                 SELECT * from appointments";
               $result = mysqli_query($conn, $stmt);

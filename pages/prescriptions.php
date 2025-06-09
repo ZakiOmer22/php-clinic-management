@@ -1,7 +1,4 @@
 <?php
-// prescriptions.php
-
-// Include your database connection and helper functions
 include '../includes/data.php';
 include '../includes/db.php';
 ?>
@@ -62,7 +59,6 @@ include '../includes/db.php';
                             <th class="px-6 py-3">Dosage</th>
                             <th class="px-6 py-3">Notes</th>
                             <th class="px-6 py-3">Prescribed at</th>
-                            <th class="px-6 py-3">Select</th>
                             <th class="px-6 py-3">Actions</th>
                         </tr>
                     </thead>
@@ -88,15 +84,12 @@ include '../includes/db.php';
                                 <td class="px-6 py-3"><?= $dosage; ?></td>
                                 <td class="px-6 py-3"><?= $notes; ?></td>
                                 <td class="px-6 py-3"><?= $prescribed_at; ?></td>
-                                <td class="px-6 py-3">
-                                    <input type="checkbox" name="appointment_ids[]" value="<?= htmlspecialchars($row['id']); ?>" class="form-checkbox" />
-                                </td>
                                 <td class="px-6 py-3 space-x-2">
-                                    <a href="edit_lab_test.php?id=<?= $id ?>"
+                                    <a href="../data/edit_prescription.php?id=<?= $id ?>"
                                         class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
                                         Edit
                                     </a>
-                                    <a href="delete_prescription.php?id=<?= urlencode($row['id']); ?>"
+                                    <a href="../data/delete_prescription.php?id=<?= urlencode($row['id']); ?>"
                                         onclick="return confirm('Are you sure you want to delete this prescription?');"
                                         class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
                                         Delete

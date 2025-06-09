@@ -57,7 +57,6 @@ include '../includes/db.php';
                                 <th class="px-6 py-3">Doctor Name</th>
                                 <th class="px-6 py-3">Appointment Date</th>
                                 <th class="px-6 py-3">Status</th>
-                                <th class="px-6 py-3">Select</th>
                                 <th class="px-6 py-3">Actions</th>
                             </tr>
                         </thead>
@@ -78,15 +77,12 @@ include '../includes/db.php';
                                         <td class="px-6 py-3"><?= htmlspecialchars($row['doctor_name']); ?></td>
                                         <td class="px-6 py-3"><?= htmlspecialchars($row['appointment_date']); ?></td>
                                         <td class="px-6 py-3"><?= htmlspecialchars($row['status']); ?></td>
-                                        <td class="px-6 py-3">
-                                            <input type="checkbox" name="appointment_ids[]" value="<?= htmlspecialchars($row['id']); ?>" class="form-checkbox" />
-                                        </td>
                                         <td class="px-6 py-3 space-x-2">
-                                            <a href="edit_appointment.php?id=<?= urlencode($row['id']); ?>"
+                                            <a href="../data/edit_appointment.php?id=<?= urlencode($row['id']); ?>"
                                                 class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
                                                 Edit
                                             </a>
-                                            <a href="delete_appointment.php?id=<?= urlencode($row['id']); ?>"
+                                            <a href="../data/delete_appointment.php?id=<?= urlencode($row['id']); ?>"
                                                 onclick="return confirm('Are you sure you want to delete this appointment?');"
                                                 class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
                                                 Delete

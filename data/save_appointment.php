@@ -2,13 +2,11 @@
 include '../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Grab data directly from POST, no validation here for simplicity
     $patient_id       = $_POST['patient_id'] ?? '';
     $doctor_name      = $_POST['doctor_name'] ?? '';
     $appointment_date = $_POST['appointment_date'] ?? '';
     $status           = $_POST['status'] ?? '';
 
-    // Just escape inputs to avoid breaking query (minimal protection)
     $patient_id = (int)$patient_id;
     $doctor_name = mysqli_real_escape_string($conn, $doctor_name);
     $appointment_date = mysqli_real_escape_string($conn, $appointment_date);

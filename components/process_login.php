@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../includes/db.php';  // Good path
+include '../includes/db.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($username) || empty($password)) {
         $_SESSION['login_error'] = "Please enter both username and password.";
-        header("Location: ../pages/login.php");  // fixed path
+        header("Location: ../pages/login.php"); 
         exit();
     }
 
@@ -24,26 +24,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($result->num_rows === 1) {
         $user = $result->fetch_assoc();
-        if ($password === $user['password']) {  // plaintext password check
+        if ($password === $user['password']) {  
             $_SESSION['logged_in'] = true;
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            header("Location: ../pages/dashboard.php");  // fixed path
+            header("Location: ../pages/dashboard.php");  
             exit();
         } else {
             $_SESSION['login_error'] = "Invalid username or password.";
-            header("Location: ../pages/login.php");  // fixed path
+            header("Location: ../pages/login.php");  
             exit();
         }
     } else {
         $_SESSION['login_error'] = "Invalid username or password.";
-        header("Location: ../pages/login.php");  // fixed path
+        header("Location: ../pages/login.php");  
         exit();
     }
 } else {
-    header("Location: ../pages/login.php");  // fixed path
+    header("Location: ../pages/login.php");  
     exit();
 }
 ?>

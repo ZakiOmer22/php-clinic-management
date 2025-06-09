@@ -14,11 +14,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $stmt->bind_param("ssss", $name, $gender, $phone, $email);
         if ($stmt->execute()) {
-            // Redirect to patients list page after successful save
             header("Location: ../pages/patients.php");
             exit;
         } else {
-            // Redirect back to add patient with error flag
             header("Location: ../pages/add_patient.php?saved=0");
             exit;
         }

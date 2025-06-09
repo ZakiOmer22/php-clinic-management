@@ -62,7 +62,6 @@ $result = mysqli_query($conn, $stmt);
                                 <th class="px-6 py-3">Gender</th>
                                 <th class="px-6 py-3">Phone</th>
                                 <th class="px-6 py-3">Email</th>
-                                <th class="px-6 py-3">Select</th>
                                 <th class="px-6 py-3">Actions</th>
                             </tr>
                         </thead>
@@ -75,15 +74,12 @@ $result = mysqli_query($conn, $stmt);
                                     <td class="px-6 py-3"><?= htmlspecialchars(ucfirst($row['gender'] ?? 'N/A')); ?></td>
                                     <td class="px-6 py-3"><?= htmlspecialchars($row['phone'] ?? 'N/A'); ?></td>
                                     <td class="px-6 py-3"><?= htmlspecialchars($row['email'] ?? 'N/A'); ?></td>
-                                    <td class="px-6 py-3">
-                                        <input type="checkbox" name="appointment_ids[]" value="<?= htmlspecialchars($row['id']); ?>" class="form-checkbox" />
-                                    </td>
                                     <td class="px-6 py-3 space-x-2">
-                                        <a href="edit_appointment.php?id=<?= urlencode($row['id']); ?>"
+                                        <a href="../data/edit_patient.php?id=<?= urlencode($row['id']); ?>"
                                             class="px-3 py-1 text-sm text-white bg-blue-600 rounded hover:bg-blue-700 transition">
                                             Edit
                                         </a>
-                                        <a href="delete_patient.php?id=<?= urlencode($row['id']); ?>"
+                                        <a href="../data/delete_patient.php?id=<?= urlencode($row['id']); ?>"
                                             onclick="return confirm('Are you sure you want to delete this patient?');"
                                             class="px-3 py-1 text-sm text-white bg-red-600 rounded hover:bg-red-700 transition">
                                             Delete
