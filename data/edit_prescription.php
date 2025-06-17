@@ -4,28 +4,26 @@ include '../includes/db.php';
 $prescription = [];
 $patients = [];
 
-
 $patientResult = mysqli_query($conn, "SELECT id, name FROM patients");
 while ($row = mysqli_fetch_assoc($patientResult)) {
     $patients[] = $row;
 }
 
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
+    $id = $_GET['id'];
     $result = mysqli_query($conn, "SELECT * FROM prescriptions WHERE id = $id");
     $prescription = mysqli_fetch_assoc($result);
 }
 
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id']);
-    $patient_id = intval($_POST['patient_id']);
-    $medicine = mysqli_real_escape_string($conn, $_POST['medicine']);
-    $dosage = mysqli_real_escape_string($conn, $_POST['dosage']);
-    $notes = mysqli_real_escape_string($conn, $_POST['notes']);
+    $id = $_POST['id'];
+    $patient_id = $_POST['patient_id'];
+    $medicine = $_POST['medicine'];
+    $dosage = $_POST['dosage'];
+    $notes = $_POST['notes'];
     $prescribed_at = $_POST['prescribed_at'];
 
-    $stmt = "
+    mysqli_query($conn, "
         UPDATE prescriptions SET
             patient_id = $patient_id,
             medicine = '$medicine',
@@ -33,11 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             notes = '$notes',
             prescribed_at = '$prescribed_at'
         WHERE id = $id
-    ";
+    ");
 
-    mysqli_query($conn, $stmt);
     header("Location: ../pages/prescriptions.php");
-    exit();
+    exit;
 }
 ?>
 

@@ -1,42 +1,25 @@
 <?php
 include '../includes/db.php';
 
+$patients = mysqli_query($conn, "SELECT id, name FROM patients");
 $labTest = [];
-$patients = [];
 
-// Fetch patients for dropdown
-$patientResult = mysqli_query($conn, "SELECT id, name FROM patients");
-while ($row = mysqli_fetch_assoc($patientResult)) {
-    $patients[] = $row;
+if ($_GET['id']) {
+    $id = $_GET['id'];
+    $labTest = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM lab_tests WHERE id = $id"));
 }
 
-// Fetch lab test
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $result = mysqli_query($conn, "SELECT * FROM lab_tests WHERE id = $id");
-    $labTest = mysqli_fetch_assoc($result);
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id']);
-    $patient_id = intval($_POST['patient_id']);
-    $test_type = mysqli_real_escape_string($conn, $_POST['test_type']);
-    $results = mysqli_real_escape_string($conn, $_POST['results']);
+    $id = $_POST['id'];
+    $pid = $_POST['patient_id'];
+    $type = $_POST['test_type'];
+    $res = $_POST['results'];
     $status = $_POST['status'];
-    $test_date = $_POST['test_date'];
+    $date = $_POST['test_date'];
 
-    $stmt = "
-        UPDATE lab_tests SET 
-            patient_id = $patient_id, 
-            test_type = '$test_type', 
-            results = '$results', 
-            status = '$status', 
-            test_date = '$test_date' 
-        WHERE id = $id
-    ";
-
-    mysqli_query($conn, $stmt);
+    mysqli_query($conn, "UPDATE lab_tests SET patient_id=$pid, test_type='$type', results='$res', status='$status', test_date='$date' WHERE id=$id");
     header("Location: ../pages/labtests.php");
-    exit();
+    exit;
 }
 ?>
 

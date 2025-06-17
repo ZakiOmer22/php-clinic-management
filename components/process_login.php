@@ -6,44 +6,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $password = trim($_POST['password']);
 
-    if (empty($username) || empty($password)) {
+    if ($username === '' || $password === '') {
         $_SESSION['login_error'] = "Please enter both username and password.";
-        header("Location: ../pages/login.php"); 
+        header("Location: ../pages/login.php");
         exit();
     }
 
-    $stmt = $conn->prepare("SELECT id, username, password, role FROM users WHERE username = ?");
-    if (!$stmt) {
-        die("Prepare failed: (" . $conn->errno . ") " . $conn->error);
-    }
+    $sql = "SELECT id, username, password, role FROM users WHERE username = '$username'";
+    $result = mysqli_query($conn, $sql);
 
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    if ($result->num_rows === 1) {
-        $user = $result->fetch_assoc();
-        if ($password === $user['password']) {  
+    if ($result && mysqli_num_rows($result) === 1) {
+        $user = mysqli_fetch_assoc($result);
+        if ($password === $user['password']) {
             $_SESSION['logged_in'] = true;
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['role'] = $user['role'];
 
-            header("Location: ../pages/dashboard.php");  
-            exit();
-        } else {
-            $_SESSION['login_error'] = "Invalid username or password.";
-            header("Location: ../pages/login.php");  
+            header("Location: ../pages/dashboard.php");
             exit();
         }
-    } else {
-        $_SESSION['login_error'] = "Invalid username or password.";
-        header("Location: ../pages/login.php");  
-        exit();
     }
+
+    $_SESSION['login_error'] = "Invalid username or password.";
+    header("Location: ../pages/login.php");
+    exit();
 } else {
-    header("Location: ../pages/login.php");  
+    header("Location: ../pages/login.php");
     exit();
 }
 ?>

@@ -1,39 +1,24 @@
 <?php
 include '../includes/db.php';
 
+$patients = mysqli_query($conn, "SELECT id, name FROM patients");
 $appointment = [];
-$patients = [];
 
-// Fetch patients for dropdown
-$patientResult = mysqli_query($conn, "SELECT id, name FROM patients");
-while ($row = mysqli_fetch_assoc($patientResult)) {
-    $patients[] = $row;
-}
-
-// Fetch appointment by ID
 if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $result = mysqli_query($conn, "SELECT * FROM appointments WHERE id = $id");
-    $appointment = mysqli_fetch_assoc($result);
+    $id = (int)$_GET['id'];
+    $appointment = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM appointments WHERE id = $id"));
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id']);
-    $patient_id = intval($_POST['patient_id']);
-    $doctor_name = mysqli_real_escape_string($conn, $_POST['doctor_name']);
-    $appointment_date = $_POST['appointment_date'];
+    $id = $_POST['id'];
+    $pid = $_POST['patient_id'];
+    $doctor = $_POST['doctor_name'];
+    $date = $_POST['appointment_date'];
     $status = $_POST['status'];
 
-    $stmt = "UPDATE appointments SET 
-        patient_id = $patient_id, 
-        doctor_name = '$doctor_name',
-        appointment_date = '$appointment_date',
-        status = '$status'
-        WHERE id = $id";
-
-    mysqli_query($conn, $stmt);
+    mysqli_query($conn, "UPDATE appointments SET patient_id=$pid, doctor_name='$doctor', appointment_date='$date', status='$status' WHERE id=$id");
     header("Location: ../pages/appointments.php");
-    exit();
+    exit;
 }
 ?>
 

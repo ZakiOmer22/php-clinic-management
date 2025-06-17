@@ -9,7 +9,7 @@ function isActive($page)
 ?>
 
 <aside class="bg-blue-800 text-white w-64 min-h-screen fixed">
-    <div class="p-4 text-center font-bold text-xl border-b border-blue-700">Clinic Admin</div>
+    <div class="p-4 text-center font-bold text-xl border-b border-blue-700">PHP Project</div>
     <nav class="mt-4 space-y-1">
 
         <!-- Dashboard -->
@@ -26,6 +26,10 @@ function isActive($page)
 
         <!-- Manage Prescriptions -->
         <a href="prescriptions.php" class="block px-6 py-3 <?= isActive('prescriptions.php') ?>">💊 Prescriptions</a>
+
+
+        <!-- Manage Users -->
+        <a href="users.php" class="block px-6 py-3 <?= isActive('users.php') ?>">🛡️ Users</a>
 
     </nav>
 </aside>

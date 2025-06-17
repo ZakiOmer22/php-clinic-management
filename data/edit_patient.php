@@ -1,25 +1,23 @@
 <?php
 include '../includes/db.php';
 
-if (isset($_GET['id'])) {
-    $id = intval($_GET['id']);
-    $query = "SELECT * FROM patients WHERE id = $id";
-    $result = mysqli_query($conn, $query);
-    $patient = mysqli_fetch_assoc($result);
+$patient = [];
+
+if ($_GET['id']) {
+    $id = $_GET['id'];
+    $patient = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM patients WHERE id = $id"));
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = intval($_POST['id']);
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $gender = $_POST['gender'] === 'female' ? 'female' : 'male';
-    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $gender = $_POST['gender'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
 
-    $stmt = "UPDATE patients SET name='$name', gender='$gender', phone='$phone', email='$email' WHERE id = $id";
-    mysqli_query($conn, $stmt);
-
+    mysqli_query($conn, "UPDATE patients SET name='$name', gender='$gender', phone='$phone', email='$email' WHERE id=$id");
     header("Location: ../pages/patients.php");
-    exit();
+    exit;
 }
 ?>
 
